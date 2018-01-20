@@ -24,4 +24,9 @@ http://ww1.sinaimg.cn/large/9c4ddab1gy1fnmppp43mdj20k006zgnb.jpg
 注：如下可指定具体的「起始」和「结束」时间
 ```
 ffmpeg -hide_banner a.mp4 -c copy -ss 00:10:30 -to 00:30:10 CUT_a.mp4
+
+再批量转码压缩一下收藏起来 :)
+parallel -j1 ffmpeg -i {} -hide_banner -c:v libx265 -b:v 100k -vf scale=iw*0.75:ih*0.75 -preset slower -c:a aac -b:a 48k _{.}.mp4 ::: CUT*.mp4
+正式转码前可先拿视频的一部分片段（比如截取视频的30秒时长）来测试下输出的效果是否是你理想中的，输出后可直接播放看看即心理有数
+ffmpeg -i a.mp4 -c:v libx265 -b:v 100k -vf scale=iw*0.75:ih*0.75 -preset slower -c:a aac -b:a 48k -ss 00:00:00 -to 00:00:30 a.x265.mp4
 ```
